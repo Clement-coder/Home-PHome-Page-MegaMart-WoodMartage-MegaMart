@@ -1,17 +1,26 @@
 import { useState, useEffect } from "react";
 
 const ProductList = ({ onAddToCart }) => {
+  // Log the received prop for debugging.
+  console.log("ProductList received onAddToCart:", onAddToCart);
+
   const [productList, setProductList] = useState([]);
 
+  // Fetch products from the API
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
-      .then((data) => setProductList(data.slice(0, 20)))
+      .then((data) => setProductList(data.slice(0, 20))) // Only take first 20 products
       .catch((err) => console.error("Error fetching productList:", err));
   }, []);
 
+  // Handle the add to cart operation
   const handleAdd = (product) => {
-    onAddToCart(product); // Ensure this function is being called correctly
+    if (onAddToCart) {
+      onAddToCart(product);
+    } else {
+      console.error("onAddToCart is not defined");
+    }
   };
 
   return (
@@ -21,7 +30,7 @@ const ProductList = ({ onAddToCart }) => {
         {productList.map((product) => (
           <div
             key={product.id}
-            className="bg-white p-4 rounded shadow hover:shadow-lg transition-all"
+            className="bg-white p-4 rounded shadow hover:shadow-lg transform transition-transform duration-300 hover:scale-105"
           >
             <img
               src={product.image}
@@ -35,7 +44,7 @@ const ProductList = ({ onAddToCart }) => {
             </h3>
             <p className="text-blue-600 font-bold">${product.price}</p>
             <button
-              onClick={() => handleAdd(product)} // Use the handleAdd function here
+              onClick={() => handleAdd(product)}
               className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
             >
               Add to Cart

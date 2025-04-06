@@ -6,7 +6,7 @@ const NavSection = () => {
   return (
     <div className=''>
       <NavBar/>
-      {/* <CartSidebar/> */}
+     
     </div>
   )
 }

@@ -1,36 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Populars from '../layouts/populars';
 import ProductList from '../layouts/fakeApi';
 
 const HeroPage = () => {
+  const [cart, setCart] = useState([]);
+
+  // Function to handle adding a product to the cart
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1 }];
+      }
+    });
+  };
+
   return (
     <>
-      {/* Main Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-blue-600 p-4 ">
-     <div className="flex flex-col lg:flex-row h-auto lg:h-screen">
-  {/* Hero Text Section */}
-  <div className="bg-[#ADB89A] text-white text-center w-full lg:basis-[60%] flex flex-col justify-center items-center px-6 py-12 lg:py-0 lg:h-full">
-    <span className="text-lg font-medium">
-      From <span className="text-blue-600">For the</span> designer
-    </span>
-    <h1 className="text-4xl md:text-5xl font-bold py-6">
-      Check out our Expert Advice
-    </h1>
-    <button className="py-3 px-6 bg-blue-600 rounded-md text-white text-lg font-semibold hover:bg-blue-800 transition">
-      Expert Advice
-    </button>
-  </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-blue-600 p-4">
+        {/* Hero Section */}
+        <div className="flex flex-col lg:flex-row h-auto lg:h-screen">
+          {/* Hero Text Section */}
+          <div className="bg-[#ADB89A] text-white text-center w-full lg:basis-[60%] flex flex-col justify-center items-center px-6 py-12 lg:py-0 lg:h-full">
+            <span className="text-lg font-medium">
+              From <span className="text-blue-600">For the</span> designer
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold py-6">
+              Check out our Expert Advice
+            </h1>
+            <button className="py-3 px-6 bg-blue-600 rounded-md text-white text-lg font-semibold hover:bg-blue-800 transition">
+              Expert Advice
+            </button>
+          </div>
 
-  {/* Hero Image Section */}
-  <div className="w-full lg:basis-[60%] h-[250px] sm:h-[350px] md:h-[450px] lg:h-full">
-    <img
-      src="https://woodmart.xtemos.com/megamarket/wp-content/uploads/sites/6/2021/12/slider-2-2.jpg"
-      alt="Expert"
-      className="w-full h-full object-cover"
-    />
-  </div>
-</div>
-
+          {/* Hero Image Section */}
+          <div className="w-full lg:basis-[60%] h-[250px] sm:h-[350px] md:h-[450px] lg:h-full">
+            <img
+              src="https://woodmart.xtemos.com/megamarket/wp-content/uploads/sites/6/2021/12/slider-2-2.jpg"
+              alt="Expert"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
 
         {/* Right Column - Services + Shipping */}
         <div className="flex flex-col">
@@ -68,8 +85,10 @@ const HeroPage = () => {
           </div>
         </div>
       </div>
-    <Populars/>
-    <ProductList/>
+
+      <Populars />
+      {/* Passing handleAddToCart function to ProductList */}
+      <ProductList onAddToCart={handleAddToCart} />
     </>
   );
 };
