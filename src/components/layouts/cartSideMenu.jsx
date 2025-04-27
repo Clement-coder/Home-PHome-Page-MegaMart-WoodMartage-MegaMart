@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const CartSidebar = ({ cartItems = [], onClose = () => {}, isOpen = false }) => {
   const isEmpty = cartItems.length === 0;
 
   return (
     <>
-      {/* Dim the background when the sidebar is open */}
       {isOpen && <div className="fixed inset-0 bg-black opacity-50 z-40"></div>}
 
       <div
@@ -13,7 +12,6 @@ const CartSidebar = ({ cartItems = [], onClose = () => {}, isOpen = false }) => 
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between border-b py-4">
           <h2 className="text-2xl font-bold">Shopping Cart</h2>
           <button
@@ -34,7 +32,6 @@ const CartSidebar = ({ cartItems = [], onClose = () => {}, isOpen = false }) => 
           </button>
         </div>
 
-        {/* Body */}
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center mt-12 text-center text-gray-500">
             <svg
@@ -65,7 +62,7 @@ const CartSidebar = ({ cartItems = [], onClose = () => {}, isOpen = false }) => 
             </button>
           </div>
         ) : (
-          <ul className="space-y-3 mt-4">
+          <ul className="space-y-3 mt-4 text-black">
             {cartItems.map((item, index) => (
               <li key={index} className="border-b pb-2">
                 <p className="font-semibold">{item.title}</p>

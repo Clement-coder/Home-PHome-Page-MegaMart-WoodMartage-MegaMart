@@ -23,17 +23,21 @@ const categoryItems = [
   { title: "Payment And Delivery", leftIcon: <FaTruck className="text-gray-500/50 text-xl" /> },
 ];
 
-const Categories = ({ cartItems }) => {
+
+const Categories = ({ cartItems = [] }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreMenuVisible, setIsMoreMenuVisible] = useState(false);
   const [isCartSidebarOpen, setIsCartSidebarOpen] = useState(false);
   const [cartShake, setCartShake] = useState(false);
+  const [isFindMenuVisible, setIsFindMenuVisible] = useState(false);
+
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const toggleMoreMenu = () => setIsMoreMenuVisible((prev) => !prev);
   const toggleCartSidebar = () => setIsCartSidebarOpen((prev) => !prev);
-  
-  // Shake the cart icon when clicked
+  const toggleFindMore = () => setIsFindMenuVisible((prev) => !prev);
+
+
   const shakeCartIcon = () => {
     setCartShake(true);
     setTimeout(() => {
@@ -60,11 +64,11 @@ const Categories = ({ cartItems }) => {
         </div>
 
         {/* Search and Cart Icons */}
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6 w-full lg:w-auto">
+        <div className="flex flex-col gap-4  lg:flex-row lg:items-center lg:gap-6 w-full lg:w-auto">
           <div className="relative">
             <input
               placeholder="Search for Products"
-              className="w-full lg:w-72 pl-6 z-100 pr-10 py-2 mt-9 rounded-md focus:outline-none transition-all duration-300 transform hover:scale-105"
+              className="w-full lg:w-72 pl-6 pr-10 py-2 mt-9 rounded-md focus:outline-none transition-all duration-300 transform hover:scale-105"
               type="search"
             />
             <FaSearch className="absolute right-4 top-12 text-gray-500 text-lg" />
@@ -87,7 +91,9 @@ const Categories = ({ cartItems }) => {
                 shakeCartIcon();
                 toggleCartSidebar();
               }}
-              className={`relative flex items-center justify-center w-10 h-10 border border-gray-500 rounded-full cursor-pointer transition-all duration-300 transform hover:scale-105 ${cartShake ? "animate-shake" : ""}`}
+              className={`relative flex items-center justify-center w-10 h-10 border border-gray-500 rounded-full cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                cartShake ? "animate-shake" : ""
+              }`}
             >
               <FaShoppingCart className="text-white text-2xl" />
               <span className="absolute -top-2 -right-2 bg-white text-blue-800 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
@@ -103,13 +109,11 @@ const Categories = ({ cartItems }) => {
               className="text-white text-lg font-bold flex items-center gap-2 transition-all duration-300 transform hover:scale-105"
             >
               More
-            <div>
-            {isMoreMenuVisible ? (
+              {isMoreMenuVisible ? (
                 <MdKeyboardArrowRight className="text-white text-xl" />
               ) : (
                 <MdKeyboardArrowLeft className="text-white text-xl" />
               )}
-            </div>
             </button>
           </div>
         </div>
@@ -117,20 +121,40 @@ const Categories = ({ cartItems }) => {
 
       {/* Sidebar "More" menu */}
       <div
-        className={`absolute transition-all duration-500 top-0 ease-in-out bg-gray-900 text-white p-6 rounded-lg w-64 h-screen shadow-xl z-10 ${
+        className={`absolute lg:hidden transition-all duration-500 top-0 ease-in-out bg-gray-900 text-white p-6 rounded-lg w-64 h-screen shadow-xl z-10 ${
           isMoreMenuVisible ? "left-0 opacity-100" : "-left-64 opacity-0 pointer-events-none"
         }`}
       >
-        
         <div className="flex flex-col text-left gap-4">
-        <span className='text-xl'>
+          <span className="text-xl">
             Opened Until <span>9PM</span>
-        </span>
-        <span className='flex items-center gap-1 '>
-        <svg className=' fill-gray-500' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/></svg>
+          </span>
+          <span 
+           onClick={() => {
+            toggleFindMore();
+          }}
+          className="flex items-center gap-1 cursor-pointer hover:text-yellow-300 transition-all duration-300 ease-in-out transform hover:scale-105">
+            <svg className="fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px ">
+              <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z"/>
+            </svg>
             Find A Store
-        <svg className=' fill-gray-500' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
-        </span>
+            <svg className="fill-gray-500" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/>
+            </svg>
+          </span>
+          <div className='hidden'>
+               <div className="flex flex-col">
+               <span className='text-gray-500 text-md gap-4'> Expert Advice</span>
+             
+             <span className='text-gray-500 text-lg gap-4'> About Us</span> 
+         
+             <span className='text-gray-500 text-lg gap-4'> Track Orders</span> 
+         
+             <svg className='fill-gray-500' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+          
+                </div>
+                 </div>
+         
           {categoryItems.map((item, index) => (
             <span
               key={index}

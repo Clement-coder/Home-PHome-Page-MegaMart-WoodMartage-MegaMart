@@ -1,14 +1,14 @@
-import React from 'react'
-import NavBar from './NavBar'
+import React from 'react';
+import NavBar from './NavBar';
+// import Categories from '../pages/categories';
 
-
-const NavSection = () => {
+const NavSection = ({ cartItems }) => {
   return (
-    <div className=''>
-      <NavBar/>
-     
+    <div>
+      <NavBar cartItems={cartItems} />
+      {/* <Categories cartItems={cartItems} /> */}
     </div>
-  )
-}
+  );
+};
 
-export default NavSection
+export default NavSection;
